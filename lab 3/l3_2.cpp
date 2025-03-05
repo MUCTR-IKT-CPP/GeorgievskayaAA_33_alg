@@ -4,7 +4,6 @@
 #include <random>
 #include <limits> 
 #include <string>
-#include <vector>
 #include <ctime>
 #include <chrono>
 #include <sstream>
@@ -255,31 +254,25 @@ int calculateAge(const std::string& birthDate) {
 
     return age;
 }
-
-// Функция для фильтрации людей младше 20 лет и старше 30 лет
-void filterPeople(const std::vector<Person>& people, std::vector<Person>& under20, std::vector<Person>& over30) {
-    for (const auto& person : people) {
-        int age = calculateAge(person.birthDate);
-        if (age < 20) {
-            under20.push_back(person);
-        } else if (age > 30) {
-            over30.push_back(person);
-        }
-    }
-}
-
 void test3() {
     RandomDataGeneration generator;
-    std::vector<Person> people;
-    std::vector<Person> under20, over30;
+    Queue<Person> people;
+    Queue<Person> under20, over30;
 
     // Генерация 100 случайных людей
     for (int i = 0; i < 100; ++i) {
-        people.push_back(generator.generateRandomPerson());
+        people.enqueue(generator.generateRandomPerson());
     }
 
     // Фильтрация людей младше 20 лет и старше 30 лет
-    filterPeople(people, under20, over30);
+    while (!people.isEmpty()) {
+        Person person = people.dequeue();
+        if (person.age < 20) {
+            under20.enqueue(person);
+        } else if (person.age > 30) {
+            over30.enqueue(person);
+        }
+    }
 
     // Вывод результатов
     std::cout << "====== TEST 3 ======" << std::endl;
@@ -290,7 +283,6 @@ void test3() {
     int notMatched = people.size() - under20.size() - over30.size();
     std::cout << "People not matched (between 20 and 30 years): " << notMatched << std::endl;
 }
-
 // =======================================
 // Функция для инверсии содержимого очереди
 template <typename T>
