@@ -4,7 +4,6 @@
 #include <random>
 #include <limits> 
 #include <string>
-#include <vector>
 #include <ctime>
 #include <chrono>
 #include <sstream>
@@ -272,7 +271,6 @@ void test3() {
     }
 
     // Фильтрация людей младше 20 лет и старше 30 лет
-    // filterPeople(people, under20, over30);
     while (!people.isEmpty()) {
         Person person = people.dequeue();
         if (person.age < 20) {
